@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:migrate": "npx prisma migrate deploy"
+    "prisma:migrate": "npx prisma migrate deploy",
+    "prisma:dbpush": "npx prisma push"
   },
   "dependencies": {
     "@prisma/client": "^3.15.2",
