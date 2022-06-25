@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @db.Uuid
+  discordId         String    @unique @db.VarChar(20)
+  sotonId           String    @unique @db.VarChar(50) // ec3g21
+  firstName         String    @db.VarChar(100)
+  lastName          String    @db.VarChar(100)
+  discordTag        String    @db.VarChar(37) // 32 chars + 5
+  school            String    @db.VarChar(255)
+  guilds            Json
+  sotonLinkedDate   DateTime?
+  discordLinkedDate DateTime?
+  accessLog         Json
+  discordTokens     Json?
+  sotonTokens       Json?
+
+  @@unique([discordId, sotonId])
+}
+
+model Guild {
+  id          String   @id @db.VarChar(20) // guild discord id
+  name        String   @db.VarChar(255)
+  icon        String   @db.VarChar(255)
+  createdAt   DateTime // when the guild was created
+  ownerId     String   @db.VarChar(20)
+  susuLink    String?  @db.VarChar(255)
+  roleId      String   @db.VarChar(20)
+  roleName    String   @db.VarChar(255)
+  roleColour  Int
+  inviteLink  String   @db.VarChar(255)
+  approved    Boolean
+  memberCount Int
+  apiKey      String   @unique @db.Uuid
+}
