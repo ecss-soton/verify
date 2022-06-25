@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                String    @id @db.Uuid
+  id                String    @id @default(uuid()) @db.Uuid
   discordId         String?   @unique @db.VarChar(20)
   sotonId           String    @unique @db.VarChar(50) // ec3g21
   firstName         String    @db.VarChar(100)
