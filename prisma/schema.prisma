@@ -9,18 +9,18 @@ datasource db {
 
 model User {
   id                String    @id @db.Uuid
-  discordId         String    @unique @db.VarChar(20)
+  discordId         String?   @unique @db.VarChar(20)
   sotonId           String    @unique @db.VarChar(50) // ec3g21
   firstName         String    @db.VarChar(100)
   lastName          String    @db.VarChar(100)
   discordTag        String    @db.VarChar(37) // 32 chars + 5
   school            String    @db.VarChar(255)
   guilds            Json
-  sotonLinkedDate   DateTime?
-  discordLinkedDate DateTime?
   accessLog         Json
+  sotonLinkedDate   DateTime
+  discordLinkedDate DateTime?
+  sotonTokens       Json
   discordTokens     Json?
-  sotonTokens       Json?
 
   @@unique([discordId, sotonId])
 }
