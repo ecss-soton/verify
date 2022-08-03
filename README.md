@@ -1,6 +1,8 @@
 # University of Southampton Discord verification service
 Service to globally verify and link Southampton students to their Discord accounts
 
+![Alt text](assets/soton-verify.png "Test")
+
 ## Run Locally
 
 Clone the project
