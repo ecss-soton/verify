@@ -51,7 +51,10 @@ export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
         if (style == 'discord') {
             return (
                 <>
-                    <div onClick={() => signIn('discord')} className="h-11 text-white max-w-300 bg-[#007aff] rounded-md flex p-3 flex-row items-center justify-center m-2">
+                    <div onClick={() => signIn('discord')} className="cursor-pointer h-11 w-64 text-white max-w-300 bg-[#5865F2] hover:bg-[#4351E3] rounded-md flex p-3 flex-row items-center justify-center m-2">
+                        <div className='flex-none pr-2'>
+                            <FontAwesomeIcon icon={faDiscord} className='text-white text-lg h-4 w-5'/>
+                        </div>
                         Sign in with Discord
                     </div>
                 </>
@@ -59,7 +62,10 @@ export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
         } else if (style == 'microsoft') {
             return (
                 <>
-                    <div onClick={() => signIn('azure-ad')} className="h-11 text-white max-w-300 bg-[#007aff] rounded-md flex p-3 flex-row items-center justify-center m-2">
+                    <div onClick={() => signIn('azure-ad')} className="cursor-pointer h-11 w-64 text-white max-w-300 bg-[#005C85] hover:bg-[#024460] rounded-md flex p-3 flex-row items-center justify-center m-2">
+                        <div className='flex-none pr-2'>
+                            <FontAwesomeIcon icon={faMicrosoft} className='text-white text-lg h-4 w-5'/>
+                        </div>
                         Sign in with Southampton
                     </div>
                 </>
