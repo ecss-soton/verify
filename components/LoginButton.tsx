@@ -50,12 +50,16 @@ export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
     } else {
         if (style == 'discord') {
             return (
-                <></>
+                <>
+                    <div onClick={() => signIn('discord')} className="h-11 text-white max-w-300 bg-[#007aff] rounded-md flex p-3 flex-row items-center justify-center m-2">
+                        Sign in with Discord
+                    </div>
+                </>
             )
         } else if (style == 'microsoft') {
             return (
                 <>
-                    <div onClick={() => signIn()} className="h-11 max-w-300 border-4 border-green-600 rounded-md flex p-3 flex-row items-center justify-center m-2">
+                    <div onClick={() => signIn('azure-ad')} className="h-11 text-white max-w-300 bg-[#007aff] rounded-md flex p-3 flex-row items-center justify-center m-2">
                         Sign in with Southampton
                     </div>
                 </>
