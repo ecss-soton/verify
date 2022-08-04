@@ -1,7 +1,7 @@
 # University of Southampton Discord verification service
 Service to globally verify and link Southampton students to their Discord accounts
 
-![Alt text](assets/soton-verify.png "Test")
+![Soton verify logo](assets/soton-verify.png "Test")
 
 ## Run Locally
 
@@ -51,7 +51,7 @@ TODO Add docker image link with dockerfile
 
 ## Schema
 
-![Alt](schema.png)
+![Database Schema](assets/schema.png)
 
 ## Running Tests
 
