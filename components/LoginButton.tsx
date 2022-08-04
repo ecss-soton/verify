@@ -1,4 +1,4 @@
-import { useSession, signIn } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react"
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck } from '@fortawesome/free-solid-svg-icons'
@@ -10,7 +10,9 @@ interface ILoginButton {
 
 export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
 
-    const { data: session } = useSession()
+    const { data: session } = useSession();
+
+    console.log({ session })
 
     if (session) {
         if (style == 'discord') {
@@ -23,8 +25,8 @@ export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
                         <div className='flex-auto'>
                             {session?.user?.name}
                         </div>
-                        <div className='flex-none pl-10'>
-                            <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 text-sm h-3 w-4'/>
+                        <div className='flex-none pl-10' onClick={() => signOut()}>
+                            <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 text-sm h-5 w-6'/>
                         </div>
                     </div>
                 </>
@@ -39,7 +41,7 @@ export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
                         <div className='flex-auto'>
                             {session?.user?.name}
                         </div>
-                        <div className='flex-none pl-10'>
+                        <div className='flex-none pl-10' onClick={() => signOut()}>
                             <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 text-sm h-3 w-4'/>
                         </div>
                     </div>
