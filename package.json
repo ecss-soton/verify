@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prisma:migrate": "npx prisma migrate deploy",
-    "prisma:dbpush": "npx prisma push"
+    "prisma:dbpush": "npx prisma db push"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
@@ -19,9 +19,10 @@
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@mantine/core": "^5.0.2",
     "@mantine/hooks": "^5.0.2",
+    "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^3.15.2",
     "next": "12.1.6",
-    "next-auth": "^4.6.1",
+    "next-auth": "^4.10.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
