@@ -83,7 +83,7 @@ Authorization: b583ef41-9c75-41a4-b4ec-19feb0befbd6
 
 ### Rate limiting
 
-Currently there are no rate limits in palce
+Currently, there are no rate limits in place
 
 ### API Reference
 
@@ -115,10 +115,10 @@ Returns
 }
 ```
 
-#### Get item
+#### Get tokens 
 
 ```http
-  GET /api/v1/user/:id/tokens
+  GET /api/v1/user/:userId/tokens
 ```
 
 | Parameter | Type     | Description                                                          |
@@ -136,5 +136,32 @@ Returns
     "microsoft": {
         "auth_token": "a1cbcb06-b5d8-4769-bbc1-352cf3ebfc4b",
     }
+}
+```
+
+#### Get guild information
+
+```http
+  GET /api/v1/guild/:guildId
+```
+
+| Parameter | Type     | Description                                              |
+|:----------|:---------|:---------------------------------------------------------|
+| `guildId` | `string` | **Required**. The guild Id of the guild you are fetching |
+
+Returns
+
+```json
+{
+    "id": "689530901142831105",
+    "name": "Southampton ECSS",
+    "icon": "jkshdkfhskdjhfksjdhf",
+    "createdAt": "2022-06-25T21:47:53.032Z",
+    "ownerId": "267292139208048641",
+    "susuLink": "https://www.susu.org/groups/ecss",
+    "roleId": "696959662511358032",
+    "roleName": "Verified",
+    "roleColour": "#0f12d6",
+    "approved": true
 }
 ```
