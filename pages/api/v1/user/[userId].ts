@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
@@ -15,7 +14,7 @@ type ResponseData = {
 
 export default function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Partial<ResponseData>>
+    res: NextApiResponse<ResponseData>
 ) {
   if (req.method !== "GET") return res.status(405);
 
