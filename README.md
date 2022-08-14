@@ -103,6 +103,7 @@ Currently, there are no rate limits in place
 
 Returns
 
+200 - Success
 ```json
 {
     "id": "a1cbcb06-b5d8-4769-bbc1-352cf3ebfc4b",
@@ -117,30 +118,11 @@ Returns
 }
 ```
 
-#### Get tokens 
-
-```http
-  GET /api/v1/user/:userId/tokens
-```
-
-| Query params | Type     | Description                                                          |
-|:-------------|:---------|:---------------------------------------------------------------------|
-| `userId`     | `string` | **Required**. The discord Id of the user you are fetching            |
-
-| Body params | Type     | Description                                                          |
-|:------------|:---------|:---------------------------------------------------------------------|
-| `guildId`   | `string` | **Required**. The discord guild Id that is fetching this information |
-
-Returns
-
+404 - User not found
 ```json
 {
-    "discord": {
-        "auth_token": "a1cbcb06-b5d8-4769-bbc1-352cf3ebfc4b",
-    },
-    "microsoft": {
-        "auth_token": "a1cbcb06-b5d8-4769-bbc1-352cf3ebfc4b",
-    }
+    "error": true,
+    "message": "This user does not exist or is not verified in this guild"
 }
 ```
 
@@ -156,6 +138,7 @@ Returns
 
 Returns
 
+200 - Success
 ```json
 {
     "id": "689530901142831105",
@@ -168,5 +151,13 @@ Returns
     "roleName": "Verified",
     "roleColour": "#0f12d6",
     "approved": true
+}
+```
+
+404 - Guild not found
+```json
+{
+    "error": true,
+    "message": "This guild does not exist"
 }
 ```
