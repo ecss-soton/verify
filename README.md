@@ -87,6 +87,37 @@ Currently, there are no rate limits in place
 
 ### API Reference
 
+#### Check if a user is verified or not
+
+```http
+  GET /api/v1/verified
+```
+
+| Body params | Type     | Description                                                          |
+|:------------|:---------|:---------------------------------------------------------------------|
+| `userId`    | `string` | **Required**. The discord user Id to check for                       |
+| `guildId`   | `string` | **Required**. The discord guild Id that is fetching this information |
+
+Returns
+
+200 - Success
+```json
+{
+    "verified": true,
+    "roleId": "696959662511358032",
+    "sotonLinkedDate": "2022-06-25T21:25:51.901Z",
+    "discordLinkedDate": "2022-06-25T21:47:53.032Z"
+}
+```
+
+404 - User not found
+```json
+{
+    "error": true,
+    "message": "This user does not exist or is not verified in this guild"
+}
+```
+
 #### Get details about a user
 
 ```http
