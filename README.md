@@ -93,11 +93,13 @@ Currently, there are no rate limits in place
   GET /api/v1/user/:userId
 ```
 
-| Parameter       | Type     | Description                                                                                                                                         |
+| Query params    | Type     | Description                                                                                                                                         |
 |:----------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `userId`        | `string` | **Required**. The discord Id of the user you are fetching                                                                                           |
+
+| Body params     | Type     | Description                                                                                                                                         |
+|:----------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `guildId`       | `string` | **Required**. The discord guild Id that is fetching this information <br/> Note that the user must be in the guild otherwise a 404 will be returned |
-| `Authorization` | `string` | **Required**. The API key that fetches this information                                                                                             |
 
 Returns
 
@@ -121,10 +123,13 @@ Returns
   GET /api/v1/user/:userId/tokens
 ```
 
-| Parameter | Type     | Description                                                          |
-|:----------|:---------|:---------------------------------------------------------------------|
-| `userId`  | `string` | **Required**. The discord Id of the user you are fetching            |
-| `guildId` | `string` | **Required**. The discord guild Id that is fetching this information |
+| Query params | Type     | Description                                                          |
+|:-------------|:---------|:---------------------------------------------------------------------|
+| `userId`     | `string` | **Required**. The discord Id of the user you are fetching            |
+
+| Body params | Type     | Description                                                          |
+|:------------|:---------|:---------------------------------------------------------------------|
+| `guildId`   | `string` | **Required**. The discord guild Id that is fetching this information |
 
 Returns
 
