@@ -150,9 +150,9 @@ Returns
   GET /api/v1/guild/:guildId
 ```
 
-| Parameter | Type     | Description                                              |
-|:----------|:---------|:---------------------------------------------------------|
-| `guildId` | `string` | **Required**. The guild Id of the guild you are fetching |
+| Query params | Type     | Description                                              |
+|:-------------|:---------|:---------------------------------------------------------|
+| `guildId`    | `string` | **Required**. The guild Id of the guild you are fetching |
 
 Returns
 
@@ -160,7 +160,7 @@ Returns
 {
     "id": "689530901142831105",
     "name": "Southampton ECSS",
-    "icon": "jkshdkfhskdjhfksjdhf",
+    "icon": "f67bc40260c9ab413c17cf092308f27c",
     "createdAt": "2022-06-25T21:47:53.032Z",
     "ownerId": "267292139208048641",
     "susuLink": "https://www.susu.org/groups/ecss",
