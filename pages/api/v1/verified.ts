@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../prisma/client";
+import {auth} from "../../../middleware/auth";
 
 interface ResponseData {
     verified: boolean
@@ -18,6 +19,8 @@ export default async function handler(
     res: NextApiResponse<ResponseData | ResponseError>
 ) {
     if (req.method !== "GET") return res.status(405);
+    const check = auth(req, res);
+    if (check) return check;
 
     if (!req.body.userId || !req.body.guildId) {
         return res.status(400).json({
@@ -31,8 +34,6 @@ export default async function handler(
             discordId: req.body.userId,
         }
     });
-
-    console.log(req.body)
 
     const guild = await prisma.guild.findUnique({
         where: {
