@@ -9,7 +9,7 @@ export default function Home() {
 
     let linkFlow = true;
 
-    if (session?.discord) {
+    if (session?.discord.tag) {
         linkFlow = false;
     }
 
