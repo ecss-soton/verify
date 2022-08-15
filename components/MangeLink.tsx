@@ -12,9 +12,11 @@ export const MangeLink: React.FC = () => {
 
     return (
         <>
-            <LoginButton style={'discord'} />
-            <LoginButton style={'microsoft'} />
-            <Button className="" >Test</Button>
+            <div className="pt-14">
+                <LoginButton style={'discord'} />
+                <LoginButton style={'microsoft'} />
+                <Button className="" >Test</Button>
+            </div>
         </>
     )
 }
