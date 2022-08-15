@@ -29,7 +29,6 @@ export const Steps: React.FC = () => {
                 </Stepper.Step>
                 <Stepper.Completed>
                     Congratulations! You've just linked your Southampton uni account and discord account!
-                    <Button variant="light">Test</Button>
                 </Stepper.Completed>
             </Stepper>
         </>
