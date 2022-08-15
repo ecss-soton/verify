@@ -1,4 +1,18 @@
 {
+  "name": "verify",
+  "description": "Service to globally verify and link Southampton students to their Discord accounts",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecss-soton/verify.git"
+  },
+  "keywords": [],
+  "author": "Euan Caskie - Web officer 2022-23",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ecss-soton/verify/issues"
+  },
+  "homepage": "https://github.com/ecss-soton/verify#readme",
   "private": true,
   "scripts": {
     "predev": "npx prisma generate",
