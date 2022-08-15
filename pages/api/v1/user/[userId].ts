@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../../prisma/client";
 
-type ResponseData = {
+interface ResponseData {
   id: string
   discordId: string
   sotonId: string
@@ -12,22 +13,41 @@ type ResponseData = {
   discordLinkedDate: string
 }
 
-export default function handler(
+interface ResponseError {
+  error: boolean
+  message: string
+}
+
+export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<ResponseData>
+    res: NextApiResponse<ResponseData | ResponseError>
 ) {
   if (req.method !== "GET") return res.status(405);
 
+  const discordId = typeof req.query.userId === 'string' ? req.query.userId : req.query.userId[0]
+  const user = await prisma.user.findFirst({
+    where: {
+      discordId: discordId,
+    }
+  });
+
+  if (!user || !user.discordId || !user.sotonId) {
+    return res.status(404).json({
+      error: true,
+      message: 'This user does not exist or is not verified in this guild',
+    })
+  }
+
 
   res.status(200).json({
-    id: "a1cbcb06-b5d8-4769-bbc1-352cf3ebfc4b",
-    discordId: "267292139208048641",
-    sotonId: "ec3g21",
-    firstName: "Euan",
-    lastName: "Caskie",
-    discordTag: "Ortovox#9235",
-    school: "Electronics & Computer Science (Student)",
-    sotonLinkedDate: new Date().toISOString(),
-    discordLinkedDate: new Date().toISOString(),
+    id: user.id,
+    discordId: user.discordId,
+    sotonId: user.sotonId,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    discordTag: user.discordTag,
+    school: user.school,
+    sotonLinkedDate: new Date(user.sotonLinkedDate).toISOString(),
+    discordLinkedDate: new Date(user.discordLinkedDate).toISOString(),
   });
 }
