@@ -7,23 +7,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                String    @id @default(uuid()) @db.Uuid
-  discordId         String?   @unique @db.VarChar(20)
-  sotonId           String    @unique @db.VarChar(50) // ec3g21
-  firstName         String    @db.VarChar(100)
-  lastName          String    @db.VarChar(100)
-  discordTag        String    @db.VarChar(37) // 32 chars + 5
-  school            String    @db.VarChar(255)
-  guilds            Json
-  accessLog         Json
-  sotonLinkedDate   DateTime
-  discordLinkedDate DateTime?
-  sotonTokens       Json
-  discordTokens     Json?
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
-  @@unique([discordId, sotonId])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  icon              String?
+  firstName         String?
+  lastName          String?
+  displayName       String?
+  sotonId           String?   @unique
+  discordId         String?   @unique
+  school            String?
+  discordTag        String?   @unique
+  guilds            Json?
+  accessLog         Json?
+  sotonTokens       Json?
+  discordTokens     Json?
+  sotonLinkedDate   DateTime?
+  discordLinkedDate DateTime?
+  accounts          Account[]
+  sessions          Session[]
+}
+
+//model TestUser {
+//  id                String    @id @default(uuid()) @db.Uuid
+//  discordId         String?   @unique @db.VarChar(20)
+//  discordProviderId String?   @unique @db.VarChar(255)
+//  sotonId           String    @unique @db.VarChar(50) // ec3g21
+//  sotonProviderId   String?   @unique @db.VarChar(255)
+//  firstName         String    @db.VarChar(100)
+//  lastName          String    @db.VarChar(100)
+//  discordTag        String?   @db.VarChar(37) // 32 chars + 5
+//  school            String    @db.VarChar(255)
+//  guilds            Json
+//  accessLog         Json
+//  sotonLinkedDate   DateTime
+//  discordLinkedDate DateTime?
+//  sotonTokens       Json?
+//  discordTokens     Json?
+//
+//  @@unique([discordId, sotonId])
+//}
 
 model Guild {
   id          String   @id @db.VarChar(20) // guild discord id
