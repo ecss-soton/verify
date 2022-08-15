@@ -32,8 +32,6 @@ export default NextAuth({
       })
 
       console.log(mainUser);
-
-      /* account (e.g. Twitter) linked to a user */
     },
     // async session(message) { /* session is active */ },
   },
@@ -50,7 +48,7 @@ export default NextAuth({
           id: profile.id,
           discordTag: profile.username + '#' + profile.discriminator,
           discordId: profile.id,
-          icon: profile.avatar,
+          // icon: profile.avatar,
         };
       }
     }),
