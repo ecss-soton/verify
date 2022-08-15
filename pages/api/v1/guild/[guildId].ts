@@ -26,7 +26,7 @@ export default async function handler(
     if (req.method !== "GET") return res.status(405);
 
     const guildId = typeof req.query.guildId === 'string' ? req.query.guildId : req.query.guildId[0]
-    const guild = await prisma.guild.findFirst({
+    const guild = await prisma.guild.findUnique({
         where: {
             id: guildId,
         }
@@ -38,7 +38,6 @@ export default async function handler(
             message: 'This guild does not exist',
         })
     }
-
 
     res.status(200).json({
         id: guild.id,

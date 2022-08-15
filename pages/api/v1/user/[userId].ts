@@ -5,12 +5,12 @@ interface ResponseData {
   id: string
   discordId: string
   sotonId: string
-  firstName: string
-  lastName: string
-  discordTag: string
-  school: string
-  sotonLinkedDate: string
-  discordLinkedDate: string
+  firstName: string | null
+  lastName: string | null
+  discordTag: string | null
+  school: string | null
+  sotonLinkedDate: string | null
+  discordLinkedDate: string | null
 }
 
 interface ResponseError {
@@ -23,6 +23,13 @@ export default async function handler(
     res: NextApiResponse<ResponseData | ResponseError>
 ) {
   if (req.method !== "GET") return res.status(405);
+
+  if (!req.body.guildId) {
+    return res.status(400).json({
+      error: true,
+      message: 'You must provide a guildId in the body of the request',
+    })
+  }
 
   const discordId = typeof req.query.userId === 'string' ? req.query.userId : req.query.userId[0]
   const user = await prisma.user.findFirst({
@@ -38,7 +45,6 @@ export default async function handler(
     })
   }
 
-
   res.status(200).json({
     id: user.id,
     discordId: user.discordId,
@@ -47,7 +53,7 @@ export default async function handler(
     lastName: user.lastName,
     discordTag: user.discordTag,
     school: user.school,
-    sotonLinkedDate: new Date(user.sotonLinkedDate).toISOString(),
-    discordLinkedDate: new Date(user.discordLinkedDate).toISOString(),
+    sotonLinkedDate: new Date(user.sotonLinkedDate || 0).toISOString(),
+    discordLinkedDate: new Date(user.discordLinkedDate || 0).toISOString(),
   });
 }

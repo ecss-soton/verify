@@ -19,13 +19,22 @@ export default async function handler(
 ) {
     if (req.method !== "GET") return res.status(405);
 
-    const user = await prisma.user.findFirst({
+    if (!req.body.userId || !req.body.guildId) {
+        return res.status(400).json({
+            error: true,
+            message: 'You must provide both a userId and guildId in the body of the request',
+        })
+    }
+
+    const user = await prisma.user.findUnique({
         where: {
             discordId: req.body.userId,
         }
     });
 
-    const guild = await prisma.guild.findFirst({
+    console.log(req.body)
+
+    const guild = await prisma.guild.findUnique({
         where: {
             id: req.body.guildId,
         }
@@ -34,7 +43,7 @@ export default async function handler(
     if (!user || !guild) {
         return res.status(404).json({
             error: true,
-            message: 'This user does not exist or is not verified in this guild',
+            message: 'This user does not exist or is not verified',
         })
     }
 
