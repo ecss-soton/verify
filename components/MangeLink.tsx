@@ -15,7 +15,10 @@ export const MangeLink: React.FC = () => {
             <div className="pt-14">
                 <LoginButton style={'discord'} />
                 <LoginButton style={'microsoft'} />
-                <Button className="" >Test</Button>
+                <div className="flex flex-row">
+                    <Button variant="filled">Manage verification</Button>
+                    <Button variant="outline">View audit log</Button>
+                </div>
             </div>
         </>
     )
