@@ -23,23 +23,23 @@ declare module "next-auth" {
      * or the second parameter of the `session` callback, when using a database.
      */
     interface User {
-        firstName?: string | null
-        lastName?: string | null
-        displayName?: string | null
-        sotonId?: string | null
-        discordId?: string | null
-        school?: string | null
+        firstName: string | null
+        lastName: string | null
+        displayName: string | null
+        sotonId: string | null
+        discordId: string | null
+        school: string | null
 
-        discordTag?: string | null
+        discordTag: string | null
 
-        guilds?: {} | null
-        accessLog?: {} | null
+        guilds: {} | null
+        accessLog: {} | null
 
-        sotonTokens?: {} | null
-        discordTokens?: {} | null
+        sotonTokens: {} | null
+        discordTokens: {} | null
 
-        sotonLinkedDate?: Date | null
-        discordLinkedDate?: Date | null
+        sotonLinkedDate: Date | null
+        discordLinkedDate: Date | null
     }
     /**
      * Usually contains information about the provider being used
