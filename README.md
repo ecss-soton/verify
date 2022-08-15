@@ -110,6 +110,14 @@ Returns
 }
 ```
 
+400 - Bad request
+```json
+{
+    "error": true,
+    "message": "Bad request"
+}
+```
+
 404 - User not found
 ```json
 {
@@ -146,6 +154,14 @@ Returns
     "school": "Electronics & Computer Science (Student)",
     "sotonLinkedDate": "2022-06-25T21:25:51.901Z",
     "discordLinkedDate": "2022-06-25T21:47:53.032Z"
+}
+```
+
+400 - Bad request
+```json
+{
+    "error": true,
+    "message": "Bad request"
 }
 ```
 
