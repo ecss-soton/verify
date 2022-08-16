@@ -25,6 +25,7 @@ export default NextAuth({
         data: {
           discordId: profile.id,
           discordTag: profile.discordTag,
+          discordLinkedDate: new Date(),
         },
         where: {
           id: rest?.userId
@@ -49,6 +50,17 @@ export default NextAuth({
           discordTag: profile.username + '#' + profile.discriminator,
           discordId: profile.id,
           // icon: profile.avatar,
+          firstName: null,
+          lastName: null,
+          displayName: null,
+          sotonId: null,
+          school: null,
+          guilds: null,
+          accessLog: null,
+          sotonTokens: null,
+          discordTokens: null,
+          sotonLinkedDate: null,
+          discordLinkedDate: null,
         };
       }
     }),
@@ -84,6 +96,17 @@ export default NextAuth({
           displayName: sotonData.displayName,
           sotonId: sotonData.mail.split('@')[0],
           school: sotonData.jobTitle,
+
+          discordId: null,
+          discordTag: null,
+
+          guilds: {},
+          accessLog: {},
+          sotonTokens: {},
+          discordTokens: {},
+
+          sotonLinkedDate: new Date(),
+          discordLinkedDate: null,
         }
       }
     }),
