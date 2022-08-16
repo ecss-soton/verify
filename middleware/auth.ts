@@ -1,7 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
 
-const apiKeys = {
-}
 
 interface ResponseError {
     error: boolean
@@ -25,12 +23,13 @@ export function auth(
         return true;
     }
 
-    // @ts-ignore
-    if (!apiKeys[attemptedAuth]) {
+    if (process.env.MAIN_BOT_KEY !== attemptedAuth) {
         res.status(401).json({
             error: true,
             message: 'Unauthorized',
         })
         return true;
     }
+    
+    return false;
 }
