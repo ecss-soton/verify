@@ -20,6 +20,14 @@ export default async function handler(
     if (check) return res;
 
     try {
+
+        if (!req.body.roleId || isNaN(Number(req.body.roleColour)) || !req.body.roleName) {
+            return res.status(400).json({
+                error: true,
+                message: 'You are missing one of the body params. See https://github.com/ecss-soton/verify#update-the-verified-role-for-a-guild',
+            })
+        }
+
         const guild = await prisma.guild.update({
             data: {
                 roleId: req.body.roleId,
