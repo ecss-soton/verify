@@ -6,12 +6,13 @@ interface ResponseData {
     id: string
     name: string
     icon: string
-    createdAt: string
     ownerId: string
     susuLink?: string
     roleId: string
     roleName: string
     roleColour: number
+    createdAt: string
+    updatedAt: string
     approved: boolean
 }
 
@@ -49,12 +50,13 @@ export default async function handler(
         id: guild.id,
         name: guild.name,
         icon: guild.icon,
-        createdAt: new Date(guild.createdAt).toISOString(),
         ownerId: guild.ownerId,
         susuLink: guild.susuLink || undefined,
         roleId: guild.roleId,
         roleName: guild.roleName,
         roleColour: guild.roleColour,
+        createdAt: new Date(guild.createdAt).toISOString(),
+        updatedAt: new Date(guild.updatedAt).toISOString(),
         approved: true
     });
 }
