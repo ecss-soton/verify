@@ -19,8 +19,8 @@ export default async function handler(
 ) {
     if (req.method !== "POST") return res.status(405).json({
         error: true,
-        message: 'Wrong HTTP method',
-    })
+        message: 'Only HTTP verb POST is permitted',
+    });
     const check = auth(req, res);
     if (check) return res;
 
