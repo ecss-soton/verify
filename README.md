@@ -207,12 +207,13 @@ Returns
     "id": "689530901142831105",
     "name": "Southampton ECSS",
     "icon": "f67bc40260c9ab413c17cf092308f27c",
-    "createdAt": "2022-06-25T21:47:53.032Z",
     "ownerId": "267292139208048641",
     "susuLink": "https://www.susu.org/groups/ecss",
     "roleId": "696959662511358032",
     "roleName": "Verified",
     "roleColour": 987862,
+    "createdAt": "2022-06-25T21:47:53.032Z",
+    "updatedAt": "2022-06-25T21:47:53.032Z",
     "approved": true
 }
 ```
