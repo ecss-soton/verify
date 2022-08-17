@@ -239,6 +239,7 @@ Returns
 | `roleId`     | `string`  | **Required**. The role Id for the role to be applied when a user verified     |
 | `roleName`   | `string`  | **Required**. The role name for the role to be applied when a user verified   |
 | `roleColour` | `integer` | **Required**. The role colour for the role to be applied when a user verified |
+| `inviteLink` | `string`  | **Required**. The discord invite link of the server                           |
 | `icon`       | `string`  | The icon hash of the guild you are registering                                |
 | `susuLink`   | `string`  | The official susu link of the guild you are registering                       |
 
