@@ -259,3 +259,33 @@ Returns
     "message": "This guild has already been registered"
 }
 ```
+
+#### Update the "verified" role for a guild
+
+```http
+  PATCH /api/v1/guild/role
+```
+
+| Body params  | Type      | Description                                                                           |
+|:-------------|:----------|:--------------------------------------------------------------------------------------|
+| `id`         | `string`  | **Required**. The guild Id of the guild you are modifying                             |
+| `roleId`     | `string`  | **Required**. The updated role Id for the role to be applied when a user verified     |
+| `roleName`   | `string`  | **Required**. The updated role name for the role to be applied when a user verified   |
+| `roleColour` | `integer` | **Required**. The updated role colour for the role to be applied when a user verified |
+
+Returns
+
+200 - Success
+```json
+{
+    "success": true
+}
+```
+
+404 - Guild not found
+```json
+{
+    "error": true,
+    "message": "This guild does not exist"
+}
+```
