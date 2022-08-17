@@ -1,5 +1,5 @@
 # University of Southampton Discord verification service
-Service to globally verify and link Southampton students to their Discord accounts
+Service to globally verify and link Southampton students to their Discord accounts. See also the [discord bot](https://github.com/ecss-soton/verify-bot)
 
 ![Soton verify logo](assets/soton-verify.png "Test")
 
@@ -45,6 +45,30 @@ Or start with auto refresh in development mode
   npm run dev
 ```
 
+### Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+A list of these can also be seen in [.env.example](./.env.example)
+
+```bash
+NODE_ENV="development"
+DATABASE_URL="In the form `postgresql://USER:PASSWORD@HOST:PORT/DATABASE`"
+
+NEXTAUTH_SECRET="Random bytes for auth crypto"
+NEXTAUTH_URL="Absolute URL of the server"
+
+# University of Southampton Azure AD Tenant ID - Change only if you want to auth with a different tenant ( ie univerisity account etc )
+AZURE_AD_TENANT_ID="4a5378f9-29f4-4d3e-be89-669d03ada9d8"
+AZURE_AD_CLIENT_SECRET="Your Azure AD OAuth application secret"
+AZURE_AD_CLIENT_ID="Your Azure AD OAuth application client id"
+
+DISCORD_CLIENT_SECRET="Your discord OAuth application secret"
+DISCORD_CLIENT_ID="Your discord OAuth client id"
+
+MAIN_BOT_KEY="Api key of the discord bot you are running"
+```
+
 ### Docker image
 
 TODO Add docker image link with dockerfile
@@ -61,15 +85,7 @@ To run tests, run the following command
   npm run test
 ```
 
-## Roadmap
-
-- Get everything working
-
-- Write a roadmap
-
 ## Documentation
-
-How this service works
 
 ### Authorization
 
@@ -209,7 +225,7 @@ Returns
 }
 ```
 
-#### Register a new gulid
+#### Register a new guild
 
 ```http
   POST /api/v1/guild/register
