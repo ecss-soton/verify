@@ -196,7 +196,7 @@ Returns
     "susuLink": "https://www.susu.org/groups/ecss",
     "roleId": "696959662511358032",
     "roleName": "Verified",
-    "roleColour": "#0f12d6",
+    "roleColour": 987862,
     "approved": true
 }
 ```
@@ -215,16 +215,16 @@ Returns
   POST /api/v1/guild/register
 ```
 
-| Body params  | Type     | Description                                                                   |
-|:-------------|:---------|:------------------------------------------------------------------------------|
-| `id`         | `string` | **Required**. The guild Id of the guild you are registering                   |
-| `name`       | `string` | **Required**. The name of the guild you are registering                       |
-| `icon`       | `string` | **Required**. The icon hash of the guild you are registering                  |
-| `ownerId`    | `string` | **Required**. The discord owner Id of the guild you are registering           |
-| `roleId`     | `string` | **Required**. The role Id for the role to be applied when a user verified     |
-| `roleName`   | `string` | **Required**. The role name for the role to be applied when a user verified   |
-| `roleColour` | `string` | **Required**. The role colour for the role to be applied when a user verified |
-| `susuLink`   | `string` | The official susu link of the guild you are registering                       |
+| Body params  | Type      | Description                                                                   |
+|:-------------|:----------|:------------------------------------------------------------------------------|
+| `id`         | `string`  | **Required**. The guild Id of the guild you are registering                   |
+| `name`       | `string`  | **Required**. The name of the guild you are registering                       |
+| `ownerId`    | `string`  | **Required**. The discord owner Id of the guild you are registering           |
+| `roleId`     | `string`  | **Required**. The role Id for the role to be applied when a user verified     |
+| `roleName`   | `string`  | **Required**. The role name for the role to be applied when a user verified   |
+| `roleColour` | `integer` | **Required**. The role colour for the role to be applied when a user verified |
+| `icon`       | `string`  | The icon hash of the guild you are registering                                |
+| `susuLink`   | `string`  | The official susu link of the guild you are registering                       |
 
 Returns
 
