@@ -35,14 +35,21 @@ export default async function handler(
         })
     }
 
+    if (!checkGuild && (!req.body.name || !req.body.ownerId || !req.body.roleId || isNaN(Number(req.body.roleColour)) || !req.body.roleName || !req.body.inviteLink)) {
+       return res.status(400).json({
+           error: true,
+           message: 'You are missing one of the body params. See https://github.com/ecss-soton/verify#update-the-verified-role-for-a-guild',
+       })
+    }
+
     const guild = await prisma.guild.upsert({
         create: {
             id: req.body.guildId,
             name: req.body.name,
-            icon: req.body.icon,
+            icon: req.body.icon || null,
             createdAt: new Date(),
             ownerId: req.body.ownerId,
-            susuLink: req.body.susuLink,
+            susuLink: req.body.susuLink || null,
             roleId: req.body.roleId,
             roleName: req.body.roleName,
             roleColour: req.body.roleColour,
@@ -53,6 +60,13 @@ export default async function handler(
         },
         update: {
             name: req.body.name,
+            icon: req.body.icon || null,
+            ownerId: req.body.ownerId,
+            susuLink: req.body.susuLink || null,
+            roleId: req.body.roleId,
+            roleName: req.body.roleName,
+            roleColour: req.body.roleColour,
+            inviteLink: req.body.inviteLink,
         },
         where: {
             id: req.body.guildId,
