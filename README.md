@@ -233,7 +233,7 @@ Returns
 
 | Body params  | Type      | Description                                                                   |
 |:-------------|:----------|:------------------------------------------------------------------------------|
-| `id`         | `string`  | **Required**. The guild Id of the guild you are registering                   |
+| `guildId`    | `string`  | **Required**. The guild Id of the guild you are registering                   |
 | `name`       | `string`  | **Required**. The name of the guild you are registering                       |
 | `ownerId`    | `string`  | **Required**. The discord owner Id of the guild you are registering           |
 | `roleId`     | `string`  | **Required**. The role Id for the role to be applied when a user verified     |
@@ -268,7 +268,7 @@ Returns
 
 | Body params  | Type      | Description                                                                           |
 |:-------------|:----------|:--------------------------------------------------------------------------------------|
-| `id`         | `string`  | **Required**. The guild Id of the guild you are modifying                             |
+| `guildId`    | `string`  | **Required**. The guild Id of the guild you are modifying                             |
 | `roleId`     | `string`  | **Required**. The updated role Id for the role to be applied when a user verified     |
 | `roleName`   | `string`  | **Required**. The updated role name for the role to be applied when a user verified   |
 | `roleColour` | `integer` | **Required**. The updated role colour for the role to be applied when a user verified |
