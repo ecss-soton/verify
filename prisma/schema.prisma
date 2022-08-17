@@ -83,6 +83,7 @@ model Guild {
   name        String   @db.VarChar(255)
   icon        String   @db.VarChar(255)
   createdAt   DateTime // when the guild was created
+  updatedAt   DateTime
   ownerId     String   @db.VarChar(20)
   susuLink    String?  @db.VarChar(255)
   roleId      String   @db.VarChar(20)

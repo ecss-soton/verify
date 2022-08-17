@@ -11,8 +11,6 @@ export function auth(
     req: NextApiRequest,
     res: NextApiResponse<ResponseError>
 ) {
-    console.log(req.headers)
-
     const attemptedAuth = req.headers.authorization;
 
     if (!attemptedAuth) {
