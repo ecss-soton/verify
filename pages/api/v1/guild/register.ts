@@ -60,9 +60,9 @@ export default async function handler(
         },
         update: {
             name: req.body.name,
-            icon: req.body.icon || null,
+            icon: req.body.icon,
             ownerId: req.body.ownerId,
-            susuLink: req.body.susuLink || null,
+            susuLink: req.body.susuLink,
             roleId: req.body.roleId,
             roleName: req.body.roleName,
             roleColour: req.body.roleColour,
