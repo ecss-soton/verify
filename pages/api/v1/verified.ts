@@ -51,6 +51,23 @@ export default async function handler(
         })
     }
 
+    let accessLog = user.accessLog;
+
+    if (Array.isArray(accessLog)) {
+        accessLog.push({ guild: req.body.guildId, time: new Date().toISOString(), endpoint: 'verified' })
+    } else {
+        accessLog = [];
+    }
+
+    await prisma.user.update({
+        data: {
+            accessLog: accessLog
+        },
+        where: {
+            id: user.id,
+        }
+    })
+
     res.status(200).json({
         verified: true,
         roleId: guild.roleId,

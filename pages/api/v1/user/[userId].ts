@@ -37,6 +37,19 @@ export default async function handler(
     })
   }
 
+  const guild = await prisma.guild.findUnique({
+    where: {
+      id: req.body.guildId
+    }
+  })
+
+  if (!guild) {
+    return res.status(404).json({
+      error: true,
+      message: 'That guild does not exist or is not set up with the bot yet',
+    })
+  }
+
   const discordId = typeof req.query.userId === 'string' ? req.query.userId : req.query.userId[0]
   const user = await prisma.user.findFirst({
     where: {
@@ -50,6 +63,23 @@ export default async function handler(
       message: 'This user does not exist or is not verified in this guild',
     })
   }
+
+  let accessLog = user.accessLog;
+
+  if (Array.isArray(accessLog)) {
+    accessLog.push({ guild: req.body.guildId, time: new Date().toISOString(), endpoint: '[userId]' })
+  } else {
+    accessLog = [];
+  }
+
+  await prisma.user.update({
+    data: {
+      accessLog: accessLog
+    },
+    where: {
+      id: user.id,
+    }
+  })
 
   res.status(200).json({
     id: user.id,
