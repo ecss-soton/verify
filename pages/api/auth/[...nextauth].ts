@@ -45,20 +45,23 @@ export default NextAuth({
 
         console.log({ profile, tokens })
 
+        const guilds = {
+
+        }
         return {
-          id: profile.id,
-          discordTag: profile.username + '#' + profile.discriminator,
-          discordId: profile.id,
-          // icon: profile.avatar,
           firstName: null,
           lastName: null,
           displayName: null,
           sotonId: null,
           school: null,
-          guilds: null,
+
+          id: profile.id,
+          discordId: profile.id,
+          discordTag: profile.username + '#' + profile.discriminator,
+
+          guilds: guilds,
           accessLog: null,
-          sotonTokens: null,
-          discordTokens: null,
+
           sotonLinkedDate: null,
           discordLinkedDate: null,
         };
@@ -101,9 +104,9 @@ export default NextAuth({
           discordTag: null,
 
           guilds: {},
-          accessLog: {},
-          sotonTokens: {},
-          discordTokens: {},
+          accessLog: {
+            guilds: []
+          },
 
           sotonLinkedDate: new Date(),
           discordLinkedDate: null,
