@@ -45,15 +45,18 @@ model User {
   emailVerified DateTime?
   image         String?   @db.VarChar(255)
 
-  firstName         String    @db.VarChar(100)
-  lastName          String    @db.VarChar(255)
-  displayName       String    @db.VarChar(255)
-  sotonId           String    @unique @db.VarChar(50) // ec3g21
-  discordId         String?   @unique @db.VarChar(20)
-  school            String    @db.VarChar(255)
-  discordTag        String?   @unique @db.VarChar(37) // 32 chars + 5
-  guilds            Json
-  accessLog         Json
+  firstName   String @db.VarChar(100)
+  lastName    String @db.VarChar(255)
+  displayName String @db.VarChar(255)
+  sotonId     String @unique @db.VarChar(50) // ec3g21
+  school      String @db.VarChar(255)
+
+  discordId  String? @unique @db.VarChar(20)
+  discordTag String? @unique @db.VarChar(37) // 32 chars + 5
+
+  guilds    Json
+  accessLog Json
+
   sotonLinkedDate   DateTime
   discordLinkedDate DateTime?
   accounts          Account[]
