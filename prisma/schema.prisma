@@ -7,12 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// The discord or microsoft account
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
+  id                String  @id @default(cuid()) @db.VarChar(30)
+  userId            String  @db.VarChar(30)
+  type              String  @db.VarChar(5)
+  provider          String  @db.VarChar(10)
+  providerAccountId String  @db.VarChar(20)
   refresh_token     String? @db.Text
   access_token      String? @db.Text
   expires_at        Int?
@@ -26,71 +27,52 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+// A current active session on the website
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
+  id           String   @id @default(cuid()) @db.VarChar(30)
+  sessionToken String   @unique @db.Uuid
+  userId       String   @db.VarChar(30)
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// Details about a specific user
 model User {
-  id                String    @id @default(cuid())
-  name              String?
-  email             String?   @unique
-  emailVerified     DateTime?
-  image             String?
-  icon              String?
-  firstName         String?
-  lastName          String?
-  displayName       String?
-  sotonId           String?   @unique
-  discordId         String?   @unique
-  school            String?
-  discordTag        String?   @unique
-  guilds            Json?
-  accessLog         Json?
-  sotonTokens       Json?
-  discordTokens     Json?
-  sotonLinkedDate   DateTime?
+  id String @id @default(cuid()) @db.VarChar(30)
+
+  name          String?   @db.VarChar(255)
+  email         String?   @unique @db.VarChar(255)
+  emailVerified DateTime?
+  image         String?   @db.VarChar(255)
+
+  firstName         String    @db.VarChar(100)
+  lastName          String    @db.VarChar(255)
+  displayName       String    @db.VarChar(255)
+  sotonId           String    @unique @db.VarChar(50) // ec3g21
+  discordId         String?   @unique @db.VarChar(20)
+  school            String    @db.VarChar(255)
+  discordTag        String?   @unique @db.VarChar(37) // 32 chars + 5
+  guilds            Json
+  accessLog         Json
+  sotonLinkedDate   DateTime
   discordLinkedDate DateTime?
   accounts          Account[]
   sessions          Session[]
 }
 
-//model TestUser {
-//  id                String    @id @default(uuid()) @db.Uuid
-//  discordId         String?   @unique @db.VarChar(20)
-//  discordProviderId String?   @unique @db.VarChar(255)
-//  sotonId           String    @unique @db.VarChar(50) // ec3g21
-//  sotonProviderId   String?   @unique @db.VarChar(255)
-//  firstName         String    @db.VarChar(100)
-//  lastName          String    @db.VarChar(100)
-//  discordTag        String?   @db.VarChar(37) // 32 chars + 5
-//  school            String    @db.VarChar(255)
-//  guilds            Json
-//  accessLog         Json
-//  sotonLinkedDate   DateTime
-//  discordLinkedDate DateTime?
-//  sotonTokens       Json?
-//  discordTokens     Json?
-//
-//  @@unique([discordId, sotonId])
-//}
-
+// A guild
 model Guild {
-  id          String   @id @db.VarChar(20) // guild discord id
-  name        String   @db.VarChar(255)
-  icon        String   @db.VarChar(255)
-  createdAt   DateTime // when the guild was created
-  updatedAt   DateTime
-  ownerId     String   @db.VarChar(20)
-  susuLink    String?  @db.VarChar(255)
-  roleId      String   @db.VarChar(20)
-  roleName    String   @db.VarChar(255)
-  roleColour  Int
-  inviteLink  String   @db.VarChar(255)
-  approved    Boolean
-  memberCount Int
-  apiKey      String   @unique @db.Uuid
+  id         String   @id @db.VarChar(20) // guild discord id
+  name       String   @db.VarChar(255)
+  icon       String   @db.VarChar(255)
+  ownerId    String   @db.VarChar(20)
+  susuLink   String?  @db.VarChar(255) // Not all societies are SUSU affiliated
+  roleId     String   @db.VarChar(20)
+  roleName   String   @db.VarChar(255)
+  roleColour Int
+  inviteLink String   @db.VarChar(255)
+  approved   Boolean
+  apiKey     String   @unique @db.Uuid
+  createdAt  DateTime
+  updatedAt  DateTime
 }
