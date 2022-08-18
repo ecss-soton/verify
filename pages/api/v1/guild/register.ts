@@ -78,7 +78,6 @@ export default async function handler(
                 roleName: req.body.roleName,
                 roleColour: req.body.roleColour,
                 inviteLink: req.body.inviteLink,
-                memberCount: 0,
                 approved: false,
                 apiKey: randomUUID(),
             }
