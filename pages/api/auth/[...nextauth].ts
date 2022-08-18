@@ -10,7 +10,12 @@ export default NextAuth({
   events: {
     // async signIn(message) { /* on successful sign in */ },
     // async signOut(message) { /* on signout */ },
-    // async createUser(message) { /* user created */ },
+    async createUser({ user }) {
+      // Should only ever be microsoft accounts being created here
+
+      console.log(user)
+
+    },
     // async updateUser(message) { /* user updated - e.g. their email was verified */ },
     async linkAccount({ user, account, profile}) {
       const rest = await prisma.account.findUnique({
