@@ -24,6 +24,12 @@ export default async function handler(
     const check = auth(req, res);
     if (check) return res;
 
+    if (!req.body.guildId) {
+        return res.status(400).json({
+            error: true,
+            message: 'You must provide a guildId in the body of the request',
+        })
+    }
 
     const checkGuild = await prisma.guild.findUnique({
         where: {
