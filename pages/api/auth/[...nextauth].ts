@@ -15,7 +15,7 @@ export default NextAuth({
     async linkAccount({ user, account, profile}) {
       console.log("EVENT", { user, account, profile})
 
-      const rest = await prisma.account.findFirst({
+      const rest = await prisma.account.findUnique({
         where: {
           providerAccountId: profile.id,
         }

@@ -13,7 +13,7 @@ model Account {
   userId            String  @db.VarChar(30)
   type              String  @db.VarChar(5)
   provider          String  @db.VarChar(10)
-  providerAccountId String  @db.VarChar(20)
+  providerAccountId String  @unique @db.VarChar(20)
   refresh_token     String? @db.Text
   access_token      String? @db.Text
   expires_at        Int?
