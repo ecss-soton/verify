@@ -67,7 +67,7 @@ model User {
 model Guild {
   id         String   @id @db.VarChar(20) // guild discord id
   name       String   @db.VarChar(255)
-  icon       String   @db.VarChar(255)
+  icon       String?  @db.VarChar(255)
   ownerId    String   @db.VarChar(20)
   susuLink   String?  @db.VarChar(255) // Not all societies are SUSU affiliated
   roleId     String   @db.VarChar(20)
