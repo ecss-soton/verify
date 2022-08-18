@@ -26,6 +26,7 @@ export default NextAuth({
           discordId: profile.id,
           discordTag: profile.discordTag,
           discordLinkedDate: new Date(),
+          guilds: profile.guilds || []
         },
         where: {
           id: rest?.userId
@@ -45,9 +46,18 @@ export default NextAuth({
 
         console.log({ profile, tokens })
 
-        const guilds = {
+        const data = await fetch(
+            `https://discord.com/api/v10/users/@me/guilds`,
+            {
+              headers: {
+                Authorization: `Bearer ${tokens.access_token}`,
+              },
+            }
+        )
 
-        }
+        const guilds = await data.json()
+        console.log(guilds)
+
         return {
           firstName: null,
           lastName: null,
@@ -59,7 +69,7 @@ export default NextAuth({
           discordId: profile.id,
           discordTag: profile.username + '#' + profile.discriminator,
 
-          guilds: guilds,
+          guilds,
           accessLog: null,
 
           sotonLinkedDate: null,
@@ -103,10 +113,8 @@ export default NextAuth({
           discordId: null,
           discordTag: null,
 
-          guilds: {},
-          accessLog: {
-            guilds: []
-          },
+          guilds: [],
+          accessLog: [],
 
           sotonLinkedDate: new Date(),
           discordLinkedDate: null,
