@@ -35,9 +35,6 @@ declare module "next-auth" {
         guilds: {} | null
         accessLog: {} | null
 
-        sotonTokens: {} | null
-        discordTokens: {} | null
-
         sotonLinkedDate: Date | null
         discordLinkedDate: Date | null
     }
