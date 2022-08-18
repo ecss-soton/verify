@@ -7,9 +7,6 @@ export const MangeLink: React.FC = () => {
 
     const { data: session } = useSession();
 
-    console.log({ session })
-
-
     return (
         <>
             <div className="pt-14">

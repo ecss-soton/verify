@@ -13,8 +13,6 @@ export default NextAuth({
     // async createUser(message) { /* user created */ },
     // async updateUser(message) { /* user updated - e.g. their email was verified */ },
     async linkAccount({ user, account, profile}) {
-      console.log("EVENT", { user, account, profile})
-
       const rest = await prisma.account.findUnique({
         where: {
           providerAccountId: profile.id,
@@ -32,8 +30,6 @@ export default NextAuth({
           id: rest?.userId
         }
       })
-
-      console.log(mainUser);
     },
     // async session(message) { /* session is active */ },
   },
@@ -43,9 +39,6 @@ export default NextAuth({
       clientSecret: String(process.env.DISCORD_CLIENT_SECRET),
       authorization: "https://discord.com/api/oauth2/authorize?scope=" + ["identify", "guilds"].join("+"),
       async profile(profile, tokens) {
-
-        console.log({ profile, tokens })
-
         const data = await fetch(
             `https://discord.com/api/v10/users/@me/guilds`,
             {
@@ -56,7 +49,6 @@ export default NextAuth({
         )
 
         const guilds = await data.json()
-        console.log(guilds)
 
         return {
           firstName: null,
@@ -100,8 +92,6 @@ export default NextAuth({
         const sotonData = await data.json();
         tokens.ext_expires_in = undefined;
 
-        console.log({ sotonData, profile, tokens })
-
         return {
           id: sotonData.mail.split('@')[0],
           firstName: sotonData.surname,
@@ -134,7 +124,6 @@ export default NextAuth({
         email: user.sotonId + '@soton.ac.uk',
         school: user.school,
       };
-      console.log({ session, token, user });
       return session
     }
   }

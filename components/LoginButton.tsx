@@ -12,8 +12,6 @@ export const LoginButton: React.FC<ILoginButton> = ({ style }) => {
 
     const { data: session } = useSession();
 
-    console.log({ session })
-
     if (style == 'discord') {
         if (session?.discord.tag) {
             return (
