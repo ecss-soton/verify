@@ -5,7 +5,7 @@ import {auth} from "../../../../middleware/auth";
 interface ResponseData {
     id: string
     name: string
-    icon: string
+    icon?: string
     ownerId: string
     susuLink?: string
     roleId: string
@@ -49,7 +49,7 @@ export default async function handler(
     res.status(200).json({
         id: guild.id,
         name: guild.name,
-        icon: guild.icon,
+        icon: guild.icon || undefined,
         ownerId: guild.ownerId,
         susuLink: guild.susuLink || undefined,
         roleId: guild.roleId,
