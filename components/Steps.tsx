@@ -16,7 +16,7 @@ export const Steps: React.FC = () => {
 
     return (
         <>
-            <Stepper active={step} breakpoint="sm" className="m-10">
+            <Stepper active={step} breakpoint="sm" className="mt-10 max-w-xs md:max-w-5xl">
                 <Stepper.Step label="Sign in with Southampton" description="Link your account" allowStepSelect={false}>
                     <div className="flex flex-col items-center justify-center w-full flex-1 px-40 text-center">
                         <LoginButton style={'microsoft'}/>
