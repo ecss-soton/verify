@@ -6,7 +6,7 @@ interface ResponseData {
     verified: boolean
     roleId: string
     sotonLinkedDate: string
-    discordLinkedDate: string
+    discordLinkedDate: string | null
 }
 
 interface ResponseError {
@@ -44,7 +44,7 @@ export default async function handler(
         }
     })
 
-    if (!user || !guild) {
+    if (!user || !guild || !user.discordId || !user.sotonId) {
         return res.status(404).json({
             error: true,
             message: 'This user does not exist or is not verified',
