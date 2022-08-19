@@ -8,6 +8,7 @@ interface ResponseData {
     icon?: string
     ownerId: string
     susuLink?: string
+    inviteLink: string
     roleId: string
     roleName: string
     roleColour: number
@@ -52,6 +53,7 @@ export default async function handler(
         icon: guild.icon || undefined,
         ownerId: guild.ownerId,
         susuLink: guild.susuLink || undefined,
+        inviteLink: guild.inviteLink,
         roleId: guild.roleId,
         roleName: guild.roleName,
         roleColour: guild.roleColour,

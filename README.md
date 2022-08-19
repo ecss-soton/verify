@@ -209,6 +209,7 @@ Returns
     "icon": "f67bc40260c9ab413c17cf092308f27c",
     "ownerId": "267292139208048641",
     "susuLink": "https://www.susu.org/groups/ecss",
+    "inviteLink": "https://discord.gg/4seH5uMSXU",
     "roleId": "696959662511358032",
     "roleName": "Verified",
     "roleColour": 987862,
