@@ -18,7 +18,14 @@ export default NextAuth({
     },
     // async updateUser(message) { /* user updated - e.g. their email was verified */ },
     async linkAccount({ user, account, profile}) {
-      const rest = await prisma.account.findUnique({
+
+      console.log({ user, account, profile })
+
+      if (account.provider != 'discord') {
+        return;
+      }
+
+      const userAccount = await prisma.account.findUnique({
         where: {
           providerAccountId: profile.id,
         }
@@ -32,7 +39,7 @@ export default NextAuth({
           guilds: profile.guilds || []
         },
         where: {
-          id: rest?.userId
+          id: userAccount?.userId
         }
       })
     },
