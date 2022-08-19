@@ -45,7 +45,7 @@ model User {
   emailVerified DateTime?
   image         String?   @db.VarChar(255)
 
-  firstName   String @db.VarChar(100)
+  firstName   String @db.VarChar(255)
   lastName    String @db.VarChar(255)
   displayName String @db.VarChar(255)
   sotonId     String @unique @db.VarChar(50) // ec3g21
