@@ -71,7 +71,7 @@ export default async function handler(
     res.status(200).json({
         verified: true,
         roleId: guild.roleId,
-        sotonLinkedDate: new Date(user.sotonLinkedDate || 0).toISOString(),
-        discordLinkedDate: new Date(user.discordLinkedDate || 0).toISOString(),
+        sotonLinkedDate: new Date(user.sotonLinkedDate).toISOString(),
+        discordLinkedDate: user.discordLinkedDate ? new Date(user.discordLinkedDate).toISOString() : null,
     });
 }
