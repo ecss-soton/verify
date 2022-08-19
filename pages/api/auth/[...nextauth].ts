@@ -7,6 +7,10 @@ import prisma from "../../../prisma/client";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/',
+    signOut: '/',
+  },
   events: {
     // async signIn(message) { /* on successful sign in */ },
     // async signOut(message) { /* on signout */ },
