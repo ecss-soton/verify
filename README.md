@@ -134,8 +134,7 @@ You will need to provide the discord ID of the guild that is accessing this data
 | `sotonId`   | `string` | The Southampton Id to check for                                      |
 | `guildId`   | `string` | **Required**. The discord guild Id that is fetching this information |
 
-Either discordId or sotonId is **required**. If you provide both the api will try the discordId first then the 
-sotonId and return whichever is valid or error if neither are valid.
+Either discordId or sotonId is **required**, but you cannot provide both otherwise an error will be returned
 
 Returns
 
@@ -176,8 +175,7 @@ Returns
 | `discordId`  | `string` | The discord user Id to check for                                     |
 | `sotonId`    | `string` | The Southampton Id to check for                                      |
 
-Either discordId or sotonId is **required**. If you provide both the api will try the discordId first then the
-sotonId and return whichever is valid or error if neither are valid.
+Either discordId or sotonId is **required**, but you cannot provide both otherwise an error will be returned
 
 | Body params     | Type     | Description                                                                                                                                         |
 |:----------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------|
