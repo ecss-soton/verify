@@ -25,16 +25,17 @@ export default async function handler(
     const check = auth(req, res);
     if (check) return check;
 
-    if (!req.body.userId || !req.body.guildId) {
+    if (!(req.body.discordId || req.body.sotonId) || !req.body.guildId || (req.body.discordId && req.body.sotonId)) {
         return res.status(400).json({
             error: true,
-            message: 'You must provide both a userId and guildId in the body of the request',
+            message: 'You must provide both a guildId and either a discordId or sotonId in the body of the request',
         })
     }
 
     const user = await prisma.user.findUnique({
         where: {
-            discordId: req.body.userId,
+            discordId: req.body.discordId,
+            sotonId: req.body.sotonId,
         }
     });
 

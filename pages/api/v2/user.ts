@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../prisma/client";
-import {auth} from "../../../../middleware/auth";
+import prisma from "../../../prisma/client";
+import {auth} from "../../../middleware/auth";
 
 interface ResponseData {
   id: string
@@ -37,6 +37,13 @@ export default async function handler(
     })
   }
 
+  if (req.query.sotonId && req.query.discordId) {
+    return res.status(400).json({
+      error: true,
+      message: 'You must provide either a discordId or sotonId in the body of the request but not both',
+    })
+  }
+
   const guild = await prisma.guild.findUnique({
     where: {
       id: req.body.guildId
@@ -50,10 +57,13 @@ export default async function handler(
     })
   }
 
-  const discordId = typeof req.query.userId === 'string' ? req.query.userId : req.query.userId[0]
-  const user = await prisma.user.findFirst({
+  const discordId = typeof req.query.discordId === 'string' ? req.query.discordId : req.query.discordId?.[0]
+  const sotonId = typeof req.query.sotonId === 'string' ? req.query.sotonId : req.query.sotonId?.[0]
+
+  const user = await prisma.user.findUnique({
     where: {
       discordId: discordId,
+      sotonId: sotonId,
     }
   });
 
@@ -67,7 +77,7 @@ export default async function handler(
   let accessLog = user.accessLog;
 
   if (Array.isArray(accessLog)) {
-    accessLog.push({ guild: req.body.guildId, time: new Date().toISOString(), endpoint: '[userId]' })
+    accessLog.push({ guild: req.body.guildId, time: new Date().toISOString(), endpoint: 'user' })
   } else {
     accessLog = [];
   }
