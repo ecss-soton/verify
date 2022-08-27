@@ -87,6 +87,18 @@ To run tests, run the following command
 
 ## Documentation
 
+### Versioning
+
+The current api version is `v2`. 
+
+API versions are **NOT** backwards compatible and there *will* be breaking changes between them.
+
+| API Version | Default | Status     | Documentation                                                                                        |
+|-------------|---------|------------|------------------------------------------------------------------------------------------------------|
+| 2           | Yes     | Available  | [Link](https://github.com/ecss-soton/verify/blob/main/README.md)                                     |
+| 1           |         | Deprecated | [Link](https://github.com/ecss-soton/verify/blob/f87f6e92c3f05237bbf9881ea716227c299e3c6f/README.md) |   
+
+
 ### Authorization
 
 All requests must supply a `Authorization` HTTP header in the format: `Authorization: TOKEN`
@@ -101,18 +113,28 @@ Authorization: b583ef41-9c75-41a4-b4ec-19feb0befbd6
 
 Currently, there are no rate limits in place
 
+### Auditing
+
+To provide users of the platform with the best possible experience we implement auditing logging on each request
+which can then be viewed by the user to see who accesses their data and when.
+
+You will need to provide the discord ID of the guild that is accessing this data on any request that accesses user information
+
 ### API Reference
 
 #### Check if a user is verified or not
 
 ```http
-  GET /api/v1/verified
+  GET /api/v2/verified
 ```
 
 | Body params | Type     | Description                                                          |
 |:------------|:---------|:---------------------------------------------------------------------|
-| `userId`    | `string` | **Required**. The discord user Id to check for                       |
+| `discordId` | `string` | The discord user Id to check for                                     |
+| `sotonId`   | `string` | The Southampton Id to check for                                      |
 | `guildId`   | `string` | **Required**. The discord guild Id that is fetching this information |
+
+Either discordId or sotonId is **required**, but you cannot provide both otherwise an error will be returned
 
 Returns
 
@@ -142,15 +164,18 @@ Returns
 }
 ```
 
-#### Get details about a user
+#### Get details about a user 
 
 ```http
-  GET /api/v1/user/:userId
+  GET /api/v2/user
 ```
 
-| Query params    | Type     | Description                                                                                                                                         |
-|:----------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `userId`        | `string` | **Required**. The discord Id of the user you are fetching                                                                                           |
+| Query params | Type     | Description                                                          |
+|:-------------|:---------|:---------------------------------------------------------------------|
+| `discordId`  | `string` | The discord user Id to check for                                     |
+| `sotonId`    | `string` | The Southampton Id to check for                                      |
+
+Either discordId or sotonId is **required**, but you cannot provide both otherwise an error will be returned
 
 | Body params     | Type     | Description                                                                                                                                         |
 |:----------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -192,7 +217,7 @@ Returns
 #### Get guild information
 
 ```http
-  GET /api/v1/guild/:guildId
+  GET /api/v2/guild/:guildId
 ```
 
 | Query params | Type     | Description                                              |
@@ -230,7 +255,7 @@ Returns
 #### Register a new guild
 
 ```http
-  POST /api/v1/guild/register
+  POST /api/v2/guild/register
 ```
 
 | Body params  | Type      | Description                                                                   |
