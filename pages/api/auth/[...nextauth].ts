@@ -1,11 +1,11 @@
-import NextAuth from "next-auth"
+import NextAuth, {NextAuthOptions} from "next-auth"
 import AzureADProvider from "next-auth/providers/azure-ad";
 import DiscordProvider from "next-auth/providers/discord";
 // import {PrismaAdapter} from "../../../prisma/adapter";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "../../../prisma/client";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions  = {
   adapter: PrismaAdapter(prisma),
   pages: {
     signIn: '/',
@@ -143,4 +143,6 @@ export default NextAuth({
       return session
     }
   }
-})
+}
+
+export default NextAuth(authOptions)
