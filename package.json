@@ -1,7 +1,7 @@
 {
   "name": "verify",
   "description": "Service to globally verify and link Southampton students to their Discord accounts",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ecss-soton/verify.git"
