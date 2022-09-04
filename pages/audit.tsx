@@ -49,7 +49,7 @@ export default function Audit({ session, guilds, accessLog }: AuditProps) {
 
         if (!guild) {
             return (
-                <Timeline.Item bullet={
+                <Timeline.Item key={g.time + g.guild} bullet={
                     <Avatar
                         size={22}
                         radius="xl"
@@ -65,7 +65,7 @@ export default function Audit({ session, guilds, accessLog }: AuditProps) {
         const icon = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
 
         return (
-            <Timeline.Item bullet={
+            <Timeline.Item key={g.time + g.guild} bullet={
                 <Avatar
                     size={22}
                     radius="xl"

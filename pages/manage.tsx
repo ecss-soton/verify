@@ -45,7 +45,7 @@ export default function Manage({ session, guilds }: AuditProps) {
         const icon = `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png`
 
         return (
-            <div className='flex flex-row m-2'>
+            <div key={g.id} className='flex flex-row m-2'>
                 <Avatar src={g.icon ? icon : defaultIcon} alt="Guild" />
                 <h3 className='pl-2'>{g.name}</h3>
             </div>
