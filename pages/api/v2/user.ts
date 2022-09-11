@@ -95,8 +95,8 @@ export default async function handler(
     id: user.id,
     discordId: user.discordId,
     sotonId: user.sotonId,
-    firstName: user.firstName,
-    lastName: user.lastName,
+    firstName: user.lastName, // TODO fix this in the database
+    lastName: user.firstName,
     discordTag: user.discordTag,
     school: user.school,
     sotonLinkedDate: new Date(user.sotonLinkedDate).toISOString(),
