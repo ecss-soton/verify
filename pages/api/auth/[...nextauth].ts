@@ -17,13 +17,13 @@ export const authOptions: NextAuthOptions  = {
     async createUser({ user }) {
       // Should only ever be microsoft accounts being created here
 
-      console.log(user)
+      // console.log(user)
 
     },
     // async updateUser(message) { /* user updated - e.g. their email was verified */ },
     async linkAccount({ user, account, profile}) {
 
-      console.log({ user, account, profile })
+      // console.log({ user, account, profile })
 
       if (account.provider != 'discord') {
         return;

@@ -141,9 +141,6 @@ export async function getServerSideProps(context: { req: (IncomingMessage & { co
 
     const guilds = await prisma.guild.findMany()
 
-    console.log(guilds)
-
-
     const guilds2 = guilds.map(i => ({
         ...i,
         createdAt: i.createdAt.toISOString(),
