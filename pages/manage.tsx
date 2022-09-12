@@ -1,7 +1,7 @@
 import {Steps} from "@/components/Steps";
 import {useSession} from "next-auth/react";
 import {MangeLink} from "@/components/MangeLink";
-import {Timeline, Text, Avatar, Button, Tooltip} from '@mantine/core';
+import {Timeline, Text, Avatar, Button, Tooltip, Popover} from '@mantine/core';
 import {Session, unstable_getServerSession} from "next-auth";
 import { authOptions } from 'pages/api/auth/[...nextauth]'
 import { IncomingMessage, ServerResponse } from "http";
@@ -14,6 +14,7 @@ import {faTrashCan, faDownload } from '@fortawesome/free-solid-svg-icons'
 import moment from "moment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
+import Link from 'next/link';
 
 // interface IGuild {
 //     id: string
@@ -38,8 +39,6 @@ interface AuditProps {
 
 export default function Manage({ session, guilds }: AuditProps) {
 
-    const router = useRouter()
-
     const allGuilds = guilds.map(g => {
         const defaultIcon = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpnggrid.com%2Fwp-content%2Fuploads%2F2021%2F05%2FDiscord-Logo-Circle-2048x2048.png&f=1&nofb=1'
         const icon = `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png`
@@ -52,12 +51,14 @@ export default function Manage({ session, guilds }: AuditProps) {
         )
     });
 
-    const downloadData = () => {
-
-    }
-
-    const deleteData = () => {
-
+    const deleteData = async () => {
+        await fetch("/api/v2/user/data", {
+            method: "delete",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
     }
 
     return (
@@ -68,9 +69,28 @@ export default function Manage({ session, guilds }: AuditProps) {
                 <p className="text-left">View all of the servers that use our service and get copies of your data<br/><br/>This feature is currently a work in progress</p>
 
                 <div className="flex justify-start flex-wrap flex-row p-5">
-                    <div className='p-2'><Button onClick={() => router.push('/')}>Back</Button></div>
-                    <div className='p-2'><Button onClick={downloadData} leftIcon={<FontAwesomeIcon icon={faDownload}/>} disabled variant="outline">Get a copy of you data</Button></div>
-                    <div className='p-2'><Button onClick={deleteData} leftIcon={<FontAwesomeIcon icon={faTrashCan}/>} disabled color="red">Delete your account</Button></div>
+                    <Link href="/" passHref>
+                        <div className='p-2'><Button>Back</Button></div>
+                    </Link>
+                    <a
+                        href="/api/v2/user/data"
+                        download
+                    >
+                        <div className='p-2'><Button leftIcon={<FontAwesomeIcon icon={faDownload}/>} variant="outline">Get a copy of you data</Button></div>
+                    </a>
+
+                    <Popover position="top" withArrow shadow="md">
+                        <Popover.Target>
+                            <div className='p-2'><Button leftIcon={<FontAwesomeIcon icon={faTrashCan}/>} color="red">Delete your account</Button></div>
+                        </Popover.Target>
+                        <Popover.Dropdown className='bg-green-600'>
+                            <Text>Are you sure? This deletes ALL your data permanently</Text>
+                            <Text>You will stay verified but will no longer be able to verify in any new servers</Text>
+                            <Link href="/" passHref>
+                                <Button onClick={deleteData} leftIcon={<FontAwesomeIcon icon={faTrashCan}/>} color="red">Confirm</Button>
+                            </Link>
+                        </Popover.Dropdown>
+                    </Popover>
                 </div>
 
 
@@ -114,9 +134,6 @@ export async function getServerSideProps(context: { req: (IncomingMessage & { co
     }
 
     const guilds = await prisma.guild.findMany()
-
-    console.log(guilds)
-
 
     const guilds2 = guilds.map(i => ({
         ...i,

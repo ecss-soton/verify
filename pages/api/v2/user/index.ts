@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../prisma/client";
-import {auth} from "../../../middleware/auth";
+import prisma from "../../../../prisma/client";
+import {auth} from "../../../../middleware/auth";
 
 interface ResponseData {
   id: string

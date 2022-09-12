@@ -11,6 +11,8 @@ import prisma from "../prisma/client";
 import {Guild} from '@prisma/client'
 import {useRouter} from "next/router";
 import moment from "moment";
+import Link from "next/link";
+import React from "react";
 
 // interface IGuild {
 //     id: string
@@ -34,8 +36,6 @@ interface AuditProps {
 }
 
 export default function Audit({ session, guilds, accessLog }: AuditProps) {
-
-    const router = useRouter()
 
     // @ts-ignore
     accessLog = accessLog.sort((a, b) => new Date(b.time) - new Date(a.time))
@@ -98,7 +98,9 @@ export default function Audit({ session, guilds, accessLog }: AuditProps) {
 
 
                 <div className='p-5'>
-                    <Button onClick={() => router.push('/')}>Back</Button>
+                    <Link href="/" passHref>
+                        <Button>Back</Button>
+                    </Link>
                 </div>
 
 
@@ -140,9 +142,6 @@ export async function getServerSideProps(context: { req: (IncomingMessage & { co
     }
 
     const guilds = await prisma.guild.findMany()
-
-    console.log(guilds)
-
 
     const guilds2 = guilds.map(i => ({
         ...i,
