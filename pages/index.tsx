@@ -2,15 +2,23 @@ import Head from "next/head";
 import {Steps} from "@/components/Steps";
 import {useSession} from "next-auth/react";
 import {MangeLink} from "@/components/MangeLink";
+import { useRouter } from "next/router";
 
 export default function Home() {
-
+    const router = useRouter();
     const { data: session } = useSession();
 
     let linkFlow = true;
 
     if (session?.discord.tag) {
         linkFlow = false;
+    }
+
+    if (router.query.callback && session?.discord.tag) {
+        if (!Array.isArray(router.query.callback)) {
+             router.push(router.query.callback)
+        }
+
     }
 
     return (
