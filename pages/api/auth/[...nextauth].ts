@@ -64,7 +64,15 @@ export const authOptions: NextAuthOptions  = {
             }
         )
 
-        const guilds = await data.json()
+        const allGuilds = await data.json()
+
+        const sotonGuilds = (await prisma.guild.findMany({
+          select: {
+            id: true,
+          }
+        })).map(i => i.id)
+
+        const sotonVerifyGuilds = allGuilds.filter((i: any) => !!sotonGuilds.includes(i.id))
 
         return {
           firstName: null,
@@ -77,7 +85,7 @@ export const authOptions: NextAuthOptions  = {
           discordId: profile.id,
           discordTag: profile.username + '#' + profile.discriminator,
 
-          guilds,
+          guilds: sotonVerifyGuilds,
           accessLog: null,
 
           sotonLinkedDate: null,
