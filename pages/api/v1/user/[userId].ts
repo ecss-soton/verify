@@ -50,7 +50,15 @@ export default async function handler(
     })
   }
 
-  const discordId = typeof req.query.userId === 'string' ? req.query.userId : req.query.userId[0]
+  const discordId = typeof req.query.userId === 'string' ? req.query.userId : req?.query?.userId?.[0]
+
+    if (!discordId) {
+        return res.status(400).json({
+        error: true,
+        message: 'Incorrectly formatted userId parameter',
+        })
+    }
+
   const user = await prisma.user.findFirst({
     where: {
       discordId: discordId,

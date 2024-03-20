@@ -33,7 +33,15 @@ export default async function handler(
     const check = auth(req, res);
     if (check) return res;
 
-    const guildId = typeof req.query.guildId === 'string' ? req.query.guildId : req.query.guildId[0]
+    const guildId = typeof req.query.guildId === 'string' ? req.query.guildId : req?.query?.guildId?.[0]
+
+    if (!guildId) {
+        return res.status(400).json({
+            error: true,
+            message: 'Incorrectly formatted guildId parameter',
+        })
+    }
+
     const guild = await prisma.guild.findUnique({
         where: {
             id: guildId,
