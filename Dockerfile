@@ -1,4 +1,4 @@
-FROM node:lts-buster-slim AS base
+FROM node:lts-bookworm-slim AS base
 
 RUN apt-get update && apt-get install libssl-dev ca-certificates -y
 
