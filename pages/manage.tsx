@@ -10,7 +10,7 @@ import { NextApiRequestCookies } from "next/dist/server/api-utils";
 import prisma from "../prisma/client";
 import {Guild} from '@prisma/client'
 import {useRouter} from "next/router";
-import {faTrashCan, faDownload } from '@fortawesome/free-solid-svg-icons'
+import {faTrashCan, faDownload, faChainBroken } from '@fortawesome/free-solid-svg-icons'
 import moment from "moment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -61,6 +61,17 @@ export default function Manage({ session, guilds }: AuditProps) {
         })
     }
 
+    const unlinkData = async () => {
+        await fetch("/api/v2/user/data", {
+            method: "PATCH",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        window.location.reload()
+    }
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
             <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
@@ -78,6 +89,17 @@ export default function Manage({ session, guilds }: AuditProps) {
                     >
                         <div className='p-2'><Button leftIcon={<FontAwesomeIcon icon={faDownload}/>} variant="outline">Get a copy of you data</Button></div>
                     </a>
+
+                    <Popover position="top" withArrow shadow="md">
+                        <Popover.Target>
+                            <div className='p-2'><Button leftIcon={<FontAwesomeIcon icon={faChainBroken}/>} color="orange">Unlink Discord</Button></div>
+                        </Popover.Target>
+                        <Popover.Dropdown className='bg-orange-600'>
+                            <Text>This will disconnect your Discord account from your Southampton account</Text>
+                            <Text>You can re-link it at any time</Text>
+                            <Button onClick={unlinkData} leftIcon={<FontAwesomeIcon icon={faChainBroken}/>} color="orange">Confirm unlink</Button>
+                        </Popover.Dropdown>
+                    </Popover>
 
                     <Popover position="top" withArrow shadow="md">
                         <Popover.Target>

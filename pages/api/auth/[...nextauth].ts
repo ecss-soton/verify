@@ -142,6 +142,7 @@ export const authOptions: NextAuthOptions  = {
       session.firstName = user.firstName;
       session.lastName = user.lastName;
       session.discord = {
+        id: user.discordId,
         tag: user.discordTag,
       };
       session.microsoft = {

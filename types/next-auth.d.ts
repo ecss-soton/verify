@@ -9,6 +9,7 @@ declare module "next-auth" {
         firstName: string | null
         lastName: string | null
         discord: {
+            id: string | null
             tag: string | null
         }
         microsoft: {
