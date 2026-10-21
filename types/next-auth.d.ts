@@ -8,6 +8,7 @@ declare module "next-auth" {
     interface Session {
         firstName: string | null
         lastName: string | null
+        sotonId: string | null
         discord: {
             id: string | null
             tag: string | null

@@ -45,6 +45,13 @@ export default async function handler(
         }
     })
 
+    if (guild && !guild.approved) {
+        return res.status(403).json({
+            error: true,
+            message: 'This guild has not been approved yet',
+        })
+    }
+
     if (!user || !guild || !user.discordId || !user.sotonId) {
         return res.status(404).json({
             error: true,

@@ -1,123 +1,113 @@
-import {Steps} from "@/components/Steps";
-import {useSession} from "next-auth/react";
-import {MangeLink} from "@/components/MangeLink";
-import {Timeline, Text, Avatar, Button, Tooltip} from '@mantine/core';
-import {Session, unstable_getServerSession} from "next-auth";
-import { authOptions } from 'pages/api/auth/[...nextauth]'
-import { IncomingMessage, ServerResponse } from "http";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextApiRequestCookies } from "next/dist/server/api-utils";
-import prisma from "../prisma/client";
-import {Guild} from '@prisma/client'
-import {useRouter} from "next/router";
-import moment from "moment";
 import Link from "next/link";
 import React from "react";
+import type {GetServerSideProps} from "next";
+import {Alert, Avatar, Button, Text, Timeline, Tooltip} from '@mantine/core';
+import moment from "moment";
+import {PageLayout} from "@/components/PageLayout";
+import {getLinkedUser} from "@/lib/serverAuth";
+import prisma from "../prisma/client";
 
-// interface IGuild {
-//     id: string
-//     icon: string | null
-//     name: string
-//     owner: boolean
-//     features: string[]
-//     permissions: string
-// }
-
-interface IGuild {
+interface AccessLogEntry {
     time: string
     guild: string
     endpoint: string
 }
 
-interface AuditProps {
-    session: Session
-    guilds: Guild[]
-    accessLog: IGuild[]
+interface GuildSummary {
+    id: string
+    name: string
+    icon: string | null
 }
 
-export default function Audit({ session, guilds, accessLog }: AuditProps) {
+interface AuditProps {
+    guilds: GuildSummary[]
+    accessLog: AccessLogEntry[]
+}
 
-    // @ts-ignore
-    accessLog = accessLog.sort((a, b) => new Date(b.time) - new Date(a.time))
+const DEFAULT_ICON = '/discord-icon.png';
 
-    let timelineItems = accessLog.map(g => {
-        const defaultIcon = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpnggrid.com%2Fwp-content%2Fuploads%2F2021%2F05%2FDiscord-Logo-Circle-2048x2048.png&f=1&nofb=1'
-
-        const text = `The guild accessed your data on the ${g.endpoint} endpoint`
-
-        const guild = guilds.find(i => i.id == g.guild);
-
-        if (!guild) {
-            return (
-                <Timeline.Item key={g.time + g.guild} bullet={
-                    <Avatar
-                        size={22}
-                        radius="xl"
-                        src={defaultIcon}
-                    />
-                } title="Unknown guild">
-                    <Text color="dimmed" size="sm">{text}</Text>
-                    <Text size="xs" mt={4}>{new Date(g.time).toISOString()}</Text>
-                </Timeline.Item>
-            )
-        }
-
-        const icon = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
-
-        return (
-            <Timeline.Item key={g.time + g.guild} bullet={
-                <Avatar
-                    size={22}
-                    radius="xl"
-                    src={guild.icon ? icon : defaultIcon}
-                />
-            } title={guild.name}>
-                <Text color="dimmed" size="sm">{text}</Text>
-                <Tooltip label={new Date(g.time).toString()}>
-                    <Text size="xs" mt={4}>{moment(g.time).fromNow()}</Text>
-                </Tooltip>
-            </Timeline.Item>
-        )
-    });
-
-    if (timelineItems.length == 0) {
-        timelineItems.push(<p>Your data has never been accessed</p>)
+function accessText(entry: AccessLogEntry): string {
+    if (entry.endpoint === 'verified') {
+        return 'A server checked that you are verified.';
     }
 
+    if (entry.endpoint === 'user' || entry.endpoint === '[userId]') {
+        return 'A server looked up your verification details.';
+    }
+
+    return 'A server used the verification API to look at your data.';
+}
+
+function timestamp(value: string): string {
+    return new Date(value).toString();
+}
+
+export default function Audit({guilds, accessLog}: AuditProps) {
+    const entries = React.useMemo(() => {
+        return [...accessLog]
+            .filter(entry => !Number.isNaN(new Date(entry.time).getTime()))
+            .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+    }, [accessLog]);
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-            <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+        <PageLayout title="Data access audit log - Soton Verify" mainClassName="max-w-3xl">
+            <h1 className="m-5 text-3xl font-bold text-[#005C85] sm:text-4xl md:text-5xl">
+                Data access audit log
+            </h1>
 
-                <h1 className="font-bold text-6xl m-5 text-[#005C85]">Data access audit log</h1>
-                <div className="text-left">
-                    <p>We care a lot about your data. That is why we have a robust auditing system to let you know
-                        when applications access your data.<br/>Here is a list of every single time your data has been fetched
-                        and the application that has fetched it.<br/><br/>If you have any concerns or worries about how your
-                        data is being accessed then contact the ECSS web officer</p>
-                </div>
+            <div className="max-w-2xl text-left">
+                <p>
+                    We keep a record of every time a server asks Soton Verify about your
+                    verification. Here is the full list, along with the server that made the
+                    request.
+                </p>
+                <p className="pt-3">
+                    If you have any concerns about how your data is being accessed, contact the
+                    ECSS web officer.
+                </p>
+            </div>
 
+            <div className='py-5'>
+                <Button component={Link} href="/" variant="default">Back</Button>
+            </div>
 
-                <div className='p-5'>
-                    <Link href="/" passHref>
-                        <Button>Back</Button>
-                    </Link>
-                </div>
+            {entries.length === 0 ? (
+                <Alert color="blue" className="w-full max-w-xl" role="status">
+                    No server has accessed your data yet.
+                </Alert>
+            ) : (
+                <Timeline active={-1} bulletSize={30} lineWidth={2} className="w-full max-w-xl text-left">
+                    {entries.map((entry, index) => {
+                        const guild = guilds.find(candidate => candidate.id === entry.guild);
+                        const icon = guild?.icon
+                            ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
+                            : DEFAULT_ICON;
 
-
-                <Timeline active={-1} bulletSize={30} lineWidth={2}>
-                    {timelineItems}
+                        return (
+                            <Timeline.Item
+                                key={`${entry.time}-${entry.guild}-${index}`}
+                                bullet={<Avatar size={22} radius="xl" src={icon} alt=""/>}
+                                title={guild?.name || 'Unknown server'}
+                            >
+                                <Text color="dimmed" size="sm">{accessText(entry)}</Text>
+                                <Tooltip label={timestamp(entry.time)}>
+                                    <Text size="xs" mt={4} suppressHydrationWarning>
+                                        {moment(entry.time).fromNow()}
+                                    </Text>
+                                </Tooltip>
+                            </Timeline.Item>
+                        );
+                    })}
                 </Timeline>
-
-            </main>
-        </div>
+            )}
+        </PageLayout>
     );
 }
 
-export async function getServerSideProps(context: { req: (IncomingMessage & { cookies: NextApiRequestCookies; }) | NextApiRequest; res: ServerResponse | NextApiResponse<any>; }) {
+export const getServerSideProps: GetServerSideProps<AuditProps> = async (context) => {
+    const linked = await getLinkedUser(context);
 
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
-
-    if (!session?.discord?.tag) {
+    if (!linked) {
         return {
             redirect: {
                 destination: '/',
@@ -126,34 +116,43 @@ export async function getServerSideProps(context: { req: (IncomingMessage & { co
         }
     }
 
-    const user = await prisma.user.findUnique({
-        where: {
-            discordTag: session.discord.tag
-        }
-    })
+    const guilds = await prisma.guild.findMany({
+        select: {
+            id: true,
+            name: true,
+            icon: true,
+        },
+        orderBy: {
+            name: 'asc',
+        },
+    });
 
-    if (!user) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            },
+    const rawLog = linked.user.accessLog;
+    const accessLog: AccessLogEntry[] = [];
+
+    if (Array.isArray(rawLog)) {
+        for (const raw of rawLog) {
+            if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+                continue;
+            }
+
+            const entry = raw as Record<string, unknown>;
+            if (typeof entry.time !== 'string') {
+                continue;
+            }
+
+            accessLog.push({
+                time: entry.time,
+                guild: typeof entry.guild === 'string' ? entry.guild : '',
+                endpoint: typeof entry.endpoint === 'string' ? entry.endpoint : '',
+            });
         }
     }
-
-    const guilds = await prisma.guild.findMany()
-
-    const guilds2 = guilds.map(i => ({
-        ...i,
-        createdAt: i.createdAt.toISOString(),
-        updatedAt: i.updatedAt.toISOString(),
-    }))
 
     return {
         props: {
-            session,
-            guilds: guilds2,
-            accessLog: user.accessLog
+            guilds,
+            accessLog,
         },
     }
 }

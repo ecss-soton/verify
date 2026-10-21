@@ -67,6 +67,6 @@ export default async function handler(
         roleColour: guild.roleColour,
         createdAt: new Date(guild.createdAt).toISOString(),
         updatedAt: new Date(guild.updatedAt).toISOString(),
-        approved: true
+        approved: guild.approved
     });
 }
