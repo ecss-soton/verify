@@ -1,6 +1,8 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Soton Verify",
+    "short_name": "Soton Verify",
+    "description": "Link your University of Southampton account to Discord.",
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +15,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
+    "theme_color": "#005C85",
     "background_color": "#ffffff",
     "display": "standalone"
 }

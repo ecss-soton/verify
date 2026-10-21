@@ -25,7 +25,7 @@ Install dependencies
 
 Have a PostgreSQL server running
 
-Configure the environment variables. See [Environment Variables]
+Configure the environment variables. See [Environment Variables](#environment-variables)
 
 Sync the database with the local schema
 
@@ -58,16 +58,46 @@ DATABASE_URL="In the form `postgresql://USER:PASSWORD@HOST:PORT/DATABASE`"
 NEXTAUTH_SECRET="Random bytes for auth crypto"
 NEXTAUTH_URL="Absolute URL of the server"
 
-# University of Southampton Azure AD Tenant ID - Change only if you want to auth with a different tenant ( ie univerisity account etc )
+# University of Southampton Azure AD Tenant ID - change only if you want to authenticate against a different tenant (for example a university account)
 AZURE_AD_TENANT_ID="4a5378f9-29f4-4d3e-be89-669d03ada9d8"
 AZURE_AD_CLIENT_SECRET="Your Azure AD OAuth application secret"
 AZURE_AD_CLIENT_ID="Your Azure AD OAuth application client id"
 
-DISCORD_CLIENT_SECRET="Your discord OAuth application secret"
-DISCORD_CLIENT_ID="Your discord OAuth client id"
+DISCORD_CLIENT_SECRET="Your Discord OAuth application secret"
+DISCORD_CLIENT_ID="Your Discord OAuth client id"
 
-MAIN_BOT_KEY="Api key of the discord bot you are running"
+# Shared secret used to sign the one-time /verify links issued by the bot.
+# Must be exactly the same value as LINK_TOKEN_SECRET in verify-bot.
+LINK_TOKEN_SECRET="A long random string shared with the bot"
+
+MAIN_BOT_KEY="API key of the Discord bot you are running"
+
+# Discord user IDs of admins, comma-separated
+ADMIN_DISCORD_IDS="123456789012345678"
 ```
+
+### How linking works
+
+The primary link flow is started by the bot. When a user runs `/verify`, the bot signs a
+short-lived token containing their Discord ID, tag and guild, and sends them a link to
+`/link?t=<token>`. The page in `pages/link.tsx` asks them to sign in with Southampton,
+then `pages/api/link/complete.ts` verifies the token and writes the Discord fields to
+the database.
+
+Because the token carries the Discord identity, the browser that finishes the flow does
+not have to be the browser the flow started in, and there is no OAuth state cookie to
+lose. The old "Sign in with Discord" OAuth route is kept only as a guarded legacy retry
+on `/auth-error`; it refuses to run unless the browser already has a Southampton
+session, so it can never create a Discord-only user with a null `sotonId`.
+
+If a sign-in fails, NextAuth routes the user to `/auth-error` with a friendly
+explanation and a retry action instead of a bare error page.
+
+### Guild approval
+
+Servers that run `/setup` are created unapproved. An admin listed in
+`ADMIN_DISCORD_IDS` can approve them from the **Pending guilds** section of
+`/admin`. Unapproved servers cannot verify members until they are approved.
 
 ### Docker image
 
@@ -77,12 +107,13 @@ TODO Add docker image link with dockerfile
 
 ![Database Schema](assets/schema.png)
 
-## Running Tests
+## Running checks
 
-To run tests, run the following command
+To run the type checker and linter, run:
 
 ```bash
-  npm run test
+  npm run typecheck
+  npm run lint
 ```
 
 ## Documentation

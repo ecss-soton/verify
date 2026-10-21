@@ -21,6 +21,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "prisma:migrate": "npx prisma migrate deploy",
     "prisma:dbpush": "npx prisma db push"
   },
